@@ -310,6 +310,7 @@ switch (array_get_path($wancfg, 'ipaddrv6')) {
 		array_set_path($pconfig, 'dhcp6prefixonly', array_path_enabled($wancfg, '', 'dhcp6prefixonly'));
 		array_set_path($pconfig, 'dhcp6usev4iface', array_path_enabled($wancfg, '', 'dhcp6usev4iface'));
 		array_set_path($pconfig, 'dhcp6withoutra', array_path_enabled($wancfg, '', 'dhcp6withoutra'));
+		array_set_path($pconfig, 'dhcp6rapidcommit', array_path_enabled($wancfg, '', 'dhcp6rapidcommit'));
 		array_set_path($pconfig, 'dhcp6vlanenable', array_path_enabled($wancfg, '', 'dhcp6vlanenable'));
 		array_set_path($pconfig, 'dhcp6cvpt', array_get_path($wancfg, 'dhcp6cvpt'));
 		break;
@@ -1249,6 +1250,7 @@ if ($_POST['apply']) {
 			'track6-interface',
 			'track6-prefix-id',
 			'dhcp6withoutra',
+			'dhcp6rapidcommit',
 			'dhcp6vlanenable',
 			'dhcp6cvpt',
 			'prefix-6rd',
@@ -1523,6 +1525,9 @@ if ($_POST['apply']) {
 				}
 				if ($_POST['dhcp6withoutra'] == "yes") {
 					array_set_path($wancfg, 'dhcp6withoutra', true);
+				}
+				if ($_POST['dhcp6rapidcommit'] == "yes") {
+					array_set_path($wancfg, 'dhcp6rapidcommit', true);
 				}
 				if ($_POST['dhcp6vlanenable'] == "yes") {
 					array_set_path($wancfg, 'dhcp6vlanenable', true);
@@ -2516,6 +2521,13 @@ $section->addInput(new Form_Checkbox(
 	'Do not wait for a RA',
 	'Required by some ISPs, especially those not using PPPoE',
 	array_get_path($pconfig, 'dhcp6withoutra'),
+));
+
+$section->addInput(new Form_Checkbox(
+	'dhcp6rapidcommit',
+	'Use Rapid Commit',
+	'Required by some ISPs, send the dhcp6c rapid-commit option',
+	array_get_path($pconfig, 'dhcp6rapidcommit'),
 ));
 
 if (interface_is_vlan(array_get_path($wancfg, 'if')) != NULL) {

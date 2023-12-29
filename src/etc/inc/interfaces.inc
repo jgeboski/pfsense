@@ -4820,6 +4820,9 @@ function interface_dhcpv6_configure($ifconf, $ifcfg, $destroy = false) {
 				if (is_numeric($wancfg['dhcp6-ia-pd-len'])) {
 					$dhcp6cconf .= "\tsend ia-pd {$id};\t# request prefix delegation\n";
 				}
+				if (isset($wancfg['dhcp6rapidcommit'])) {
+					$dhcp6cconf .= "\tsend rapid-commit;\n";
+				}
 
 				$dhcp6cconf .= "\trequest domain-name-servers;\n";
 				$dhcp6cconf .= "\trequest domain-name;\n";
